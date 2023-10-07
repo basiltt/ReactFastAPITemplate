@@ -22,9 +22,9 @@ class AppSettings(BaseAppSettings):
         FastAPI Skeleton Project - template repository for FastAPI projects.🚀
         """
     contact: dict = {
-        "name": "RPA Support Team",
-        "url": "https://home.hpe.com",
-        "mail": "rpa_fin_support_team@hpe.com",
+        "name": "My Team Name",
+        "url": "https://google.com",
+        "mail": "support_team@gmail.com",
     }
     version: str = "0.1.0"
     host: str = "127.0.0.1"
@@ -32,7 +32,7 @@ class AppSettings(BaseAppSettings):
     workers: int = 10
 
     database_url: Union[PostgresDsn, str] = ""
-    db_schema: str = "RBAC"
+    db_schema: str = "MY_DB_SCHEMA"
     max_db_pool_size: int = 10
     min_db_pool_size: int = 5
     pool_recycle: int = 3600
@@ -40,36 +40,28 @@ class AppSettings(BaseAppSettings):
     redis_host: str = "localhost"
     redis_port: int = 6379
     redis_key_expiry: int = 120
-    secret_key: str = "aa9873796bd5a9ac78edb1123aff667e45mm92861c15c3568d5ff036aa7420f0"
+    secret_key: str = "aa9873796bd5a9ac78edb1123aff667e45mm92861c15c7468d5ff036aa9420f0"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 300
     client_id: str = "SomeClintID"
     client_secret: str = "SomeClientSecret"
-    redirect_uri: str = "https://d2wg10130.s10.its.hpecorp.net:50038/q2o/callback"
+    redirect_uri: str = "http://localhost/myapp/callback"
     api_prefix: str = "/api"
     jwt_token_prefix: str = "Token"
     allowed_hosts: List[str] = ["*"]
     o365_client_id: str = ""
     o365_client_secret: str = ""
     email_sender: str = ""
-    smtp_server: str = "smtp3.hpe.com"
+    smtp_server: str = "smtp.gmail.com"
     smtp_port: int = 25
     send_alerts: bool = False
     logging_level: int = logging.INFO
     loggers: Tuple[str, str] = ("uvicorn.asgi", "uvicorn.access")
     test_user: dict = {
         "country": "IN",
-        "uid": "basil.tt@hpe.com",
-        "sub": "basil.tt@hpe.com",
-        "hpBusinessUnit": "Controller ship Finance",
-        "hpeSpinCompany": "Houston",
-        "hpBusinessRegion": "Worldwide",
         "name": "Basil T T",
-        "given_name": "Basil",
-        "locale": "Bangalore",
-        "family_name": "T T",
-        "email": "basil.tt@hpe.com",
-        "employeeNumber": "60156119",
+        "email": "tt.basil@gmail.com",
+        #  Add more attributes
     }
 
     class Config:

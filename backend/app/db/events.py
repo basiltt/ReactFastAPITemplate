@@ -10,16 +10,13 @@ from backend.app.core.settings.app import AppSettings
 
 # from backend.app.db.initial_data_loader import load_initial_data_to_db
 
-# DROP_TABLES = False
-DROP_TABLES = True
+DROP_TABLES = False
+# DROP_TABLES = True
 
 # from backend.app.db.initial_data_loader import load_initial_data_to_db
 
 LOAD_INITIAL_DATA = False
 # LOAD_INITIAL_DATA = True
-
-DROP_TABLES = False
-# DROP_TABLES = True
 
 settings_object = None
 
@@ -31,6 +28,7 @@ async def connect_to_db(app: FastAPI, settings: AppSettings) -> None:
     is_driver_async = settings.database_url.startswith("postgresql+asyncpg")
     app.state.settings = settings
     if is_driver_async:
+        logger.debug("Async mode")
         app.state.engine = create_async_engine(
             settings.database_url,
             pool_size=settings.max_db_pool_size,
@@ -45,9 +43,15 @@ async def connect_to_db(app: FastAPI, settings: AppSettings) -> None:
         )
         async with app.state.engine.begin() as conn:
             if DROP_TABLES:
+                logger.debug("Dropping all database tables in async mode")
                 await conn.run_sync(SQLModel.metadata.drop_all)
+            if LOAD_INITIAL_DATA:
+                logger.debug("Loading initial data to database in async mode")
+                # await load_initial_data_to_
+            logger.debug("Creating database tables in async mode")
             await conn.run_sync(SQLModel.metadata.create_all)
     else:
+        print("Sync mode")
         app.state.engine = create_engine(
             settings.database_url,
             pool_size=settings.max_db_pool_size,

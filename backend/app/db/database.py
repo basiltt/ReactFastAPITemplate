@@ -58,19 +58,40 @@ async def update_db(
     print("Updated database")
 
 
+# async def get_from_db(
+#     session: Union[Session, AsyncSession], instance, multiple=True, **kwargs
+# ) -> None:
+#     is_driver_async = isinstance(session, AsyncSession)
+#     statement = select(instance).filter_by(**kwargs)
+#     if is_driver_async:
+#         if multiple:
+#             output = await session.scalars(statement).all()
+#         else:
+#             output = await session.scalars(statement).first()
+#     else:
+#         if multiple:
+#             output = session.scalars(statement).all()
+#         else:
+#             output = session.scalars(statement).first()
+#     return output
+
+
 async def get_from_db(
     session: Union[Session, AsyncSession], instance, multiple=True, **kwargs
-) -> None:
+):
     is_driver_async = isinstance(session, AsyncSession)
     statement = select(instance).filter_by(**kwargs)
+
     if is_driver_async:
-        if multiple:
-            output = await session.scalars(statement).all()
-        else:
-            output = await session.scalars(statement).first()
+        result = await session.execute(statement)
     else:
-        if multiple:
-            output = session.scalars(statement).all()
-        else:
-            output = session.scalars(statement).first()
+        result = session.execute(statement)
+
+    if multiple:
+        output = (
+            [row[0] for row in result] if is_driver_async else result.scalars().all()
+        )
+    else:
+        output = result.scalar() if is_driver_async else result.scalar()
+
     return output

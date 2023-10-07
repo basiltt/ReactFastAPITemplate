@@ -124,9 +124,9 @@ class HpaOauth:
 
     def fetch_user_details(self, request: Request) -> dict:
         """
-        Method to fetch the user details. Should be used inside callback route
+        Method to fetch the users details. Should be used inside callback route
         :param request: request object
-        :return: user details as dictionary
+        :return: users details as dictionary
         """
         params = request.query_params
         code = params.get("code")
