@@ -19,13 +19,17 @@ async def get_db(request: Request) -> Union[AsyncSession, Session]:
 
 async def update_db(
     session: Union[Session, AsyncSession], instance, refresh_data=False
-) -> None:
+) -> any:
     is_driver_async = isinstance(session, AsyncSession)
     if isinstance(instance, list):
         if is_driver_async:
             try:
                 session.bulk_save_objects(instance)
                 await session.commit()
+                if refresh_data:
+                    await session.refresh(instance)
+                print("DB Updated")
+                return instance
             except Exception as e:
                 print(e)
                 await session.rollback()
@@ -33,6 +37,10 @@ async def update_db(
             try:
                 session.bulk_save_objects(instance)
                 session.commit()
+                if refresh_data:
+                    session.refresh(instance)
+                print("DB Updated")
+                return instance
             except Exception as e:
                 print(e)
                 session.rollback()
@@ -43,6 +51,8 @@ async def update_db(
                 await session.commit()
                 if refresh_data:
                     await session.refresh(instance)
+                print("DB Updated")
+                return instance
             except Exception as e:
                 print(e)
                 await session.rollback()
@@ -52,10 +62,11 @@ async def update_db(
                 session.commit()
                 if refresh_data:
                     session.refresh(instance)
+                print("DB Updated")
+                return instance
             except Exception as e:
                 print(e)
                 session.rollback()
-    print("Updated database")
 
 
 # async def get_from_db(
