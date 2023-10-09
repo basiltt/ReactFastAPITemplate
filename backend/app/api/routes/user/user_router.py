@@ -13,7 +13,7 @@ from backend.app.models.users.user import BaseUser, UserIn, UserLogin
 router = APIRouter(prefix="/users", tags=["USERS"])
 
 
-@router.post("/sign-up", status_code=status.HTTP_200_OK)
+@router.post("/sign-up", status_code=status.HTTP_200_OK, response_model=BaseUser)
 async def sign_up(
     user: UserIn, session: Union[AsyncSession, Session] = Depends(get_db)
 ):
