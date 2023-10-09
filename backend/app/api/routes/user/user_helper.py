@@ -16,7 +16,7 @@ async def hash_password(password: str):
 
     # Hash the password using the salt and the secret key
     hashed_password = bcrypt.hashpw(
-        password.encode("utf-8"), salt + settings.secret_key.encode("utf-8")
+        password.encode("utf-8"), salt + str(settings.secret_key).encode("utf-8")
     )
 
     return hashed_password

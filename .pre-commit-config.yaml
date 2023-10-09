@@ -1,0 +1,55 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: name-tests-test
+        args: [ "--django" ]
+      - id: check-added-large-files
+        args: [ '--maxkb=3000' ]
+      - id: requirements-txt-fixer
+      - id: check-yaml
+      - id: pretty-format-json
+        args: [ '--autofix' ]
+      - id: check-merge-conflict
+
+
+  - repo: https://github.com/psf/black
+    rev: 23.9.1
+    hooks:
+      - id: black
+        language_version: python3.9
+        exclude: (
+          ^pytest_cache
+          | ^.env
+          | ^pytest.ini
+          | ^venv
+          | ^requirements.txt
+          | ^.idea
+          | ^.git
+          )
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        additional_dependencies: [ flake8-isort ]
+        args: [ "--max-line-length=79",
+                "--max-complexity=25",
+                "--select=B,C,E,F,W,T4,B9",
+                "--ignore=E203,E266,E501,W503,F403,F401,E402", ]
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: 'v3.0.3'
+    hooks:
+      - id: prettier
+        name: prettier react
+        types: [ file ]
+        files: \.(ts|tsx|js|jsx)$
+        exclude: '\.html$'
+        additional_dependencies:
+          - prettier@2.1.2
+          - '@prettier/plugin-xml@0.12.0'

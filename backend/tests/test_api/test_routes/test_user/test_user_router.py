@@ -25,10 +25,10 @@ async def test_create_user(async_client: AsyncClient) -> None:
         "phone": "8547948528",
     }
     response = await async_client.post(
-        "/api/users/create-users", follow_redirects=True, json=data
+        "/api/users/sign-up", follow_redirects=True, json=data
     )
     assert response.status_code == 201
-    assert response.json().get("users").get("email") == data.get("email")
-    assert response.json().get("users").get("first_name") == data.get("first_name")
-    assert response.json().get("users").get("last_name") == data.get("last_name")
-    assert response.json().get("users").get("phone") == data.get("phone")
+    assert response.json().get("email") == data.get("email")
+    assert response.json().get("first_name") == data.get("first_name")
+    assert response.json().get("last_name") == data.get("last_name")
+    assert response.json().get("phone") == data.get("phone")
